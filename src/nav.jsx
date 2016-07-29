@@ -110,9 +110,9 @@ class Nav extends React.Component {
   searchThrottle(e) {
     clearTimeout(this.searchTimeout)
     e.persist()
-    this.searchTimeout = setTimeout(function() {
+    this.searchTimeout = setTimeout(() => {
       this.props.onSearch(e)
-    }.bind(this), 300)
+    }, 300)
   }
 
   render() {

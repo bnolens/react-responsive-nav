@@ -21259,11 +21259,13 @@
 	  }, {
 	    key: "searchThrottle",
 	    value: function searchThrottle(e) {
+	      var _this2 = this;
+
 	      clearTimeout(this.searchTimeout);
 	      e.persist();
 	      this.searchTimeout = setTimeout(function () {
-	        this.props.onSearch(e);
-	      }.bind(this), 300);
+	        _this2.props.onSearch(e);
+	      }, 300);
 	    }
 	  }, {
 	    key: "render",
