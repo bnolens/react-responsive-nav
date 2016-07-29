@@ -4,6 +4,7 @@ A response navigation React component.
 ## Dependencies
 * React
 * ReactDOM
+* An ES2015/JSX transpiler (e.g. Babel)
 
 ## Development Dependencies
 * webpack
@@ -49,4 +50,4 @@ ReactDOM.render(
 ```
 
 ## Example
-See the examples directory.
+See the examples directory or [github pages](http://dannybtran.github.io/react-responsive-nav/)
