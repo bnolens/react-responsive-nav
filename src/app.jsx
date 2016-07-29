@@ -1,27 +1,8 @@
-# React Responsive Nav
-A response navigation React component.
-
-## Dependencies
-* React
-* ReactDOM
-
-## Development Dependencies
-* webpack
-* babel
-* extract-text-webpack-plugin
-* sass-loader
-
-## Usage
-The `Nav` component accepts four props.
-- logo: Text or image that identifies the app.
-- onClick: A callback that returns the button that was clicked.
-- onSearch: A callback that fires when the search box value changes.
-- menu: A JSON object that specifies how to populate the drop down buttons on the nav.
-
-```
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Nav from ('./nav.jsx')
+import Nav from './nav.jsx'
+
+import './styles.scss'
 
 ReactDOM.render(
   <Nav logo="ReactNav"
@@ -46,7 +27,3 @@ ReactDOM.render(
   />,
   document.getElementById('container')
 )
-```
-
-## Example
-See the examples directory.
