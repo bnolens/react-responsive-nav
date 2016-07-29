@@ -9,12 +9,14 @@ class Nav extends React.Component {
       menu: this.menuFromProps(props)
     }
     this.blurTimeout = 0
+    this.searchTimeout = 0
     this.collapseIfExpanded = this.collapseIfExpanded.bind(this)
     this.expandDropdown = this.expandDropdown.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.handleChildFocus = this.handleChildFocus.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
     this.toggleSearch = this.toggleSearch.bind(this)
+    this.searchThrottle = this.searchThrottle.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -105,6 +107,14 @@ class Nav extends React.Component {
     this.setState(state)
   }
 
+  searchThrottle(e) {
+    clearTimeout(this.searchTimeout)
+    e.persist()
+    this.searchTimeout = setTimeout(function() {
+      this.props.onSearch(e)
+    }.bind(this), 300)
+  }
+
   render() {
     const menuExpanded = this.state.menuExpanded ? "expanded" : ""
     const searchExpanded = this.state.searchExpanded ? "expanded" : ""
@@ -141,7 +151,7 @@ class Nav extends React.Component {
           childHandlers={childHandlers}
           menuExpanded={menuExpanded} />
         <div id="search" className={searchExpanded}>
-          <input type="text" placeholder="Search..." onChange={this.props.onSearch}/>
+          <input type="text" placeholder="Search..." onChange={this.searchThrottle}/>
         </div>
         </div>
       </nav>

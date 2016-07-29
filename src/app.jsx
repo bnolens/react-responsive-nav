@@ -4,15 +4,17 @@ import Nav from './nav.jsx'
 
 import './styles.scss'
 
+const $console = document.getElementById('console')
+
 ReactDOM.render(
   <Nav logo="ReactNav"
 
        onClick={button => {
-         console.log(button.target.id)
+         $console.innerHTML += button.target.id + "\n"
        }}
 
        onSearch={event => {
-         console.log(event.target.value)
+         $console.innerHTML += event.target.value + "\n"
        }}
 
        menu={[
