@@ -51,3 +51,6 @@ ReactDOM.render(
 
 ## Example
 See the examples directory or [github pages](http://dannybtran.github.io/react-responsive-nav/)
+
+## Build
+- From the root directory run `webpack --watch` and everything in `src` will be compiled upon file change into the `bin` directory.
