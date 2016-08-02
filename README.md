@@ -1,18 +1,9 @@
 # React Responsive Nav
 A response navigation React component.
 
-## Dependencies
-* React
-* ReactDOM
-* An ES2015/JSX transpiler (e.g. Babel)
-
-## Development Dependencies
-* webpack
-* babel
-* extract-text-webpack-plugin
-* sass-loader
-
 ## Usage
+Include 'nav.jsx' in your react app.
+
 The `Nav` component accepts four props.
 - logo: Text or image that identifies the app.
 - onClick: A callback that returns the button that was clicked.
@@ -31,8 +22,8 @@ ReactDOM.render(
          console.log(button.target.id)
        }}
 
-       onSearch={event => {
-         console.log(event.target.value)
+       onSearch={value => {
+         console.log(value)
        }}
 
        menu={[
@@ -53,4 +44,7 @@ ReactDOM.render(
 See the examples directory or [github pages](http://dannybtran.github.io/react-responsive-nav/)
 
 ## Build
-- From the root directory run `webpack --watch` and everything in `src` will be compiled upon file change into the `bin` directory.
+- To test, run `npm test` for a single test or `npm test -- --watch=all` for continuous testing.
+- From the root directory run `webpack --watch` and everything in `src` will be continuously compiled into the `bin` directory.
+- Serve `index.html` from the examples directory. (e.g. with `python -m SimpleHTTPServer`)
+- The `bin` directory is sym-linked to the `example/assets` directory.

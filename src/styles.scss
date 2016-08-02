@@ -90,17 +90,18 @@ nav {
     font-size: 0.9rem;
     background-color: #F2F6FA;
     box-sizing: border-box;
+    padding: 6px;
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px;
+      font-size: 1.25rem;
+    }
 
     &.expanded {
       display: inline-block;
       width: 100%;
-      padding: 6px;
-      input {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 6px;
-        font-size: 1.25rem;
-      }
     }
   }
 
@@ -243,6 +244,10 @@ nav {
       flex-grow: 0;
       padding: 6px;
 
+      &.expanded {
+        width: auto;
+      }
+
       input {
         width: 100%;
         box-sizing: border-box;
@@ -250,6 +255,7 @@ nav {
         border-radius: 4px;
         border: 1px solid #eee;
         padding: 6px;
+        font-size: 0.9rem;
       }
     }
 

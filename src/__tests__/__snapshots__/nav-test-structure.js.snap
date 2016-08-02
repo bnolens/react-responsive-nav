@@ -1,0 +1,279 @@
+exports[`Nav displays nav links when mobileMenuExpand is clicked 1`] = `
+<nav>
+  <div
+    className="inner">
+    <div
+      className=""
+      id="mobile-menu-expand"
+      onClick={[Function toggleMenuAction]}>
+      <div
+        className="bar" />
+      <div
+        className="bar" />
+      <div
+        className="bar" />
+    </div>
+    <a
+      id="logo"
+      onClick={[Function clickButtonAction]} />
+    <div
+      className=""
+      id="search-expand-mobile"
+      onClick={[Function toggleSearchAction]}>
+      <div
+        className="icon" />
+    </div>
+    <div
+      className=""
+      id="nav-links">
+      <span
+        className="dropdownContainer">
+        <a
+          className="button dropdown"
+          href={undefined}
+          id="settings"
+          label="Settings"
+          onBlur={[Function blurAction]}
+          onFocus={[Function focusDropdownAction]}
+          onMouseDown={[Function collapseDropdownIfExpanded]}
+          tabIndex={0}>
+          Settings
+           ▼
+        </a>
+        <div
+          className="sublinks">
+          <a
+            className="button"
+            href="#"
+            id="logout"
+            onBlur={[Function blurAction]}
+            onClick={[Function onClick]}
+            onFocus={[Function focusButtonAction]}
+            tabIndex={0}>
+            Logout
+          </a>
+        </div>
+      </span>
+    </div>
+    <div
+      className=""
+      id="search">
+      <input
+        id="search-input"
+        onChange={[Function searchChange]}
+        placeholder="Search..."
+        type="text" />
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`Nav displays nav links when mobileMenuExpand is clicked 2`] = `
+<nav>
+  <div
+    className="inner">
+    <div
+      className="expanded"
+      id="mobile-menu-expand"
+      onClick={[Function toggleMenuAction]}>
+      <div
+        className="bar" />
+      <div
+        className="bar" />
+      <div
+        className="bar" />
+    </div>
+    <a
+      id="logo"
+      onClick={[Function clickButtonAction]} />
+    <div
+      className=""
+      id="search-expand-mobile"
+      onClick={[Function toggleSearchAction]}>
+      <div
+        className="icon" />
+    </div>
+    <div
+      className="expanded"
+      id="nav-links">
+      <span
+        className="dropdownContainer">
+        <a
+          className="button dropdown"
+          href={undefined}
+          id="settings"
+          label="Settings"
+          onBlur={[Function blurAction]}
+          onFocus={[Function focusDropdownAction]}
+          onMouseDown={[Function collapseDropdownIfExpanded]}
+          tabIndex={0}>
+          Settings
+           ▼
+        </a>
+        <div
+          className="sublinks">
+          <a
+            className="button"
+            href="#"
+            id="logout"
+            onBlur={[Function blurAction]}
+            onClick={[Function onClick]}
+            onFocus={[Function focusButtonAction]}
+            tabIndex={0}>
+            Logout
+          </a>
+        </div>
+      </span>
+    </div>
+    <div
+      className=""
+      id="search">
+      <input
+        id="search-input"
+        onChange={[Function searchChange]}
+        placeholder="Search..."
+        type="text" />
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`Nav displays the search box and closes the nav links when mobileMenuExpand is clicked 1`] = `
+<nav>
+  <div
+    className="inner">
+    <div
+      className=""
+      id="mobile-menu-expand"
+      onClick={[Function toggleMenuAction]}>
+      <div
+        className="bar" />
+      <div
+        className="bar" />
+      <div
+        className="bar" />
+    </div>
+    <a
+      id="logo"
+      onClick={[Function clickButtonAction]} />
+    <div
+      className=""
+      id="search-expand-mobile"
+      onClick={[Function toggleSearchAction]}>
+      <div
+        className="icon" />
+    </div>
+    <div
+      className=""
+      id="nav-links">
+      <span
+        className="dropdownContainer">
+        <a
+          className="button dropdown"
+          href={undefined}
+          id="settings"
+          label="Settings"
+          onBlur={[Function blurAction]}
+          onFocus={[Function focusDropdownAction]}
+          onMouseDown={[Function collapseDropdownIfExpanded]}
+          tabIndex={0}>
+          Settings
+           ▼
+        </a>
+        <div
+          className="sublinks">
+          <a
+            className="button"
+            href="#"
+            id="logout"
+            onBlur={[Function blurAction]}
+            onClick={[Function onClick]}
+            onFocus={[Function focusButtonAction]}
+            tabIndex={0}>
+            Logout
+          </a>
+        </div>
+      </span>
+    </div>
+    <div
+      className=""
+      id="search">
+      <input
+        id="search-input"
+        onChange={[Function searchChange]}
+        placeholder="Search..."
+        type="text" />
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`Nav displays the search box and closes the nav links when mobileMenuExpand is clicked 2`] = `
+<nav>
+  <div
+    className="inner">
+    <div
+      className=""
+      id="mobile-menu-expand"
+      onClick={[Function toggleMenuAction]}>
+      <div
+        className="bar" />
+      <div
+        className="bar" />
+      <div
+        className="bar" />
+    </div>
+    <a
+      id="logo"
+      onClick={[Function clickButtonAction]} />
+    <div
+      className="expanded"
+      id="search-expand-mobile"
+      onClick={[Function toggleSearchAction]}>
+      <div
+        className="icon" />
+    </div>
+    <div
+      className=""
+      id="nav-links">
+      <span
+        className="dropdownContainer">
+        <a
+          className="button dropdown"
+          href={undefined}
+          id="settings"
+          label="Settings"
+          onBlur={[Function blurAction]}
+          onFocus={[Function focusDropdownAction]}
+          onMouseDown={[Function collapseDropdownIfExpanded]}
+          tabIndex={0}>
+          Settings
+           ▼
+        </a>
+        <div
+          className="sublinks">
+          <a
+            className="button"
+            href="#"
+            id="logout"
+            onBlur={[Function blurAction]}
+            onClick={[Function onClick]}
+            onFocus={[Function focusButtonAction]}
+            tabIndex={0}>
+            Logout
+          </a>
+        </div>
+      </span>
+    </div>
+    <div
+      className="expanded"
+      id="search">
+      <input
+        id="search-input"
+        onChange={[Function searchChange]}
+        placeholder="Search..."
+        type="text" />
+    </div>
+  </div>
+</nav>
+`;

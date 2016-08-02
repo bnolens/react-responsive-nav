@@ -13,8 +13,8 @@ ReactDOM.render(
          $console.innerHTML += button.target.id + "\n"
        }}
 
-       onSearch={event => {
-         $console.innerHTML += event.target.value + "\n"
+       onSearch={value => {
+         $console.innerHTML += value + "\n"
        }}
 
        menu={[

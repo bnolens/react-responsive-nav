@@ -1,6 +1,28 @@
 import React from 'react'
 
-class Nav extends React.Component {
+class Store {
+  constructor() {
+    this.listeners = []
+  }
+
+  subscribe(listener) {
+    this.listeners.push(listener)
+    return () => {
+      const i = this.listeners.indexOf(listener)
+      if (i !== -1) { this.listeners.splice(i, 1) }
+    }
+  }
+
+  dispatch(body) {
+    this.listeners.map((listener) => {
+      listener(body)
+    })
+  }
+}
+
+const store = new Store()
+
+export default class Nav extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -10,13 +32,20 @@ class Nav extends React.Component {
     }
     this.blurTimeout = 0
     this.searchTimeout = 0
-    this.collapseIfExpanded = this.collapseIfExpanded.bind(this)
-    this.expandDropdown = this.expandDropdown.bind(this)
-    this.handleBlur = this.handleBlur.bind(this)
-    this.handleChildFocus = this.handleChildFocus.bind(this)
-    this.toggleMenu = this.toggleMenu.bind(this)
-    this.toggleSearch = this.toggleSearch.bind(this)
-    this.searchThrottle = this.searchThrottle.bind(this)
+    this.store = props.store || store
+    this.update = this.update.bind(this)
+  }
+
+  componentWillMount() {
+    this.unsubscribe = store.subscribe(this.update.bind(this))
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+  update(action) {
+    this.setState(navReducer.call(this, action))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,131 +56,37 @@ class Nav extends React.Component {
 
   menuFromProps(props) {
     return (props.menu || []).map(group => {
-      let g = Object.assign({}, group, {
-        focus: false
-      });
-      if (g.items) {
-        g.items = group.items.map(item => {
-          let i = Object.assign({}, item, {
-            focus: false
-          })
-          return i;
-        })
-      }
-      return g;
-    })
-  }
-
-  collapseIfExpanded(dropButton) {
-    clearTimeout(this.blurTimeout)
-    this.state.menu.map(group => {
-      if (dropButton.target.id !== group.id) { return; }
-      if (group.focus) {
-        setTimeout(function() { document.activeElement.blur() }, 0)
-      }
-    })
-  }
-
-  expandDropdown(dropButton) {
-    clearTimeout(this.blurTimeout)
-    const menu = this.state.menu.map(function(group) {
       return Object.assign({}, group, {
-        focus: group.id === dropButton.target.id ? true : false,
-        items: group.items.map(function(item) {
-          return Object.assign({}, item, {focus: false});
-        })
-      });
-    })
-    this.setState({menu:menu})
-  }
-
-  handleBlur() {
-    this.blurTimeout = setTimeout(function() {
-      const menu = this.state.menu.map(group => {
-        group.focus = false
-        group.items = group.items.map(item => {
-          item.focus = false
-          return item;
-        })
-        return group;
+        expanded: group.expanded || false
       })
-      this.setState({menu:menu})
-    }.bind(this), 0)
-  }
-
-  handleChildFocus(button) {
-    clearTimeout(this.blurTimeout)
-    var menu = this.state.menu.map(function(group) {
-      group.items = group.items.map(function(item) {
-          if (button.target.id !== item.id) {
-            return item;
-          }
-          group.focus = true
-          return item;
-      })
-      return group;
     })
-  }
-
-  toggleMenu() {
-    var state = this.state
-    state.menuExpanded = this.state.menuExpanded ? false : true
-    state.searchExpanded = false
-    this.setState(state)
-  }
-
-  toggleSearch() {
-    var state = this.state
-    state.searchExpanded = this.state.searchExpanded ? false : true
-    state.menuExpanded = false
-    this.setState(state)
-  }
-
-  searchThrottle(e) {
-    clearTimeout(this.searchTimeout)
-    e.persist()
-    this.searchTimeout = setTimeout(() => {
-      this.props.onSearch(e)
-    }, 300)
   }
 
   render() {
     const menuExpanded = this.state.menuExpanded ? "expanded" : ""
     const searchExpanded = this.state.searchExpanded ? "expanded" : ""
-    const handlers = {
-      onFocus: this.expandDropdown,
-      onBlur: this.handleBlur,
-      onMouseDown: this.collapseIfExpanded
-    }
-    const childHandlers = {
-      onBlur: this.handleBlur,
-      onClick: this.props.onClick,
-      onFocus: this.handleChildFocus
-    }
 
     return (
       <nav>
         <div className="inner">
         <div id="mobile-menu-expand"
              className={menuExpanded}
-             onClick={this.toggleMenu}>
+             onClick={toggleMenuAction}>
           <div className="bar"></div>
           <div className="bar"></div>
           <div className="bar"></div>
         </div>
-        <a id="logo" onClick={this.props.onClick}>{this.props.logo}</a>
+        <a id="logo" key="logo" onClick={clickButtonAction}>{this.props.logo}</a>
         <div id="search-expand-mobile"
              className={searchExpanded}
-             onClick={this.toggleSearch}>
+             onClick={toggleSearchAction}>
           <div className="icon"></div>
         </div>
         <DropButtonList
           dropButtons={this.state.menu}
-          handlers={handlers}
-          childHandlers={childHandlers}
           menuExpanded={menuExpanded} />
         <div id="search" className={searchExpanded}>
-          <input type="text" placeholder="Search..." onChange={this.searchThrottle}/>
+          <input id="search-input" type="text" placeholder="Search..." onChange={searchChange}/>
         </div>
         </div>
       </nav>
@@ -159,47 +94,178 @@ class Nav extends React.Component {
   }
 }
 
-const DropButtonList = ({ dropButtons, handlers, childHandlers, menuExpanded }) => (
+const navReducer = function(action) {
+  const {state, props} = this
+  switch(action.action) {
+    case 'TOGGLE_MENU':
+      return Object.assign({}, state, {
+        menuExpanded: !state.menuExpanded,
+        searchExpanded: false
+      });
+    case 'TOGGLE_SEARCH':
+      return Object.assign({}, state, {
+        menuExpanded: false,
+        searchExpanded: !state.searchExpanded
+      });
+    case 'HANDLE_BLUR':
+      console.log("handle blur")
+      return Object.assign({}, state, {
+        menu: state.menu.map((group) => {
+          return Object.assign({}, group, {
+            expanded: false
+          })
+        })
+      });
+    case 'FOCUS_BUTTON':
+      return Object.assign({}, state, {
+        menu: state.menu.map((group) => {
+          return Object.assign({}, group, {
+            expanded: (group.items||[]).map((item) => {
+              return item.id === action.button.target.id
+            }).indexOf(true) > -1 ? true : false
+          })
+        })
+      });
+    case 'FOCUS_DROPDOWN':
+      return Object.assign({}, state, {
+        menu: state.menu.map((group) => {
+          return Object.assign({}, group, {
+            expanded: group.id === action.dropdown.target.id
+          })
+        })
+      });
+    case 'CLICK_BUTTON':
+      props.onClick(action.button)
+      return state;
+    case 'COLLAPSE_DROPDOWN_IF_EXPANDED':
+      return Object.assign({}, state, {
+        menu: state.menu.map((group) => {
+          if (action.dropdown.target.id !== group.id || !group.expanded) { return group; }
+          setTimeout(() => { document.activeElement.blur() }, 100)
+          return Object.assign({}, group, {
+            expanded: false
+          })
+        })
+      })
+    case 'SEARCH_CHANGE':
+      props.onSearch(action.value)
+      return state;
+  }
+  return state;
+}
+
+const DropButtonList = ({ dropButtons, menuExpanded }) => (
   <div id="nav-links" className={menuExpanded}>
     {dropButtons.map(dropButton => (
       <DropButton
           key={dropButton.id}
-          dropButton={dropButton}
-          handlers={handlers}
-          childHandlers={childHandlers}>
+          dropButton={dropButton}>
       </DropButton>
     ))}
   </div>
 )
 
-const DropButton = ({ dropButton, handlers, childHandlers }) => {
+const DropButton = ({ dropButton }) => {
   const dropProps = ['id', 'label', 'href'].reduce((memo, k) => {
     memo[k] = dropButton[k]
     return memo;
   }, {})
-  const className = dropButton.focus ? 'dropdownContainer expanded' : 'dropdownContainer'
+  const className = dropButton.expanded ? 'dropdownContainer expanded' : 'dropdownContainer'
   return (
     <span className={className}>
-      <a className="button dropdown" tabIndex={0} {...dropProps} {...handlers}>
+      <a className="button dropdown" tabIndex={0} {...dropProps}
+          onMouseDown={collapseDropdownIfExpanded}
+          onFocus={focusDropdownAction}
+          onBlur={blurAction}>
         {dropButton.label} &#9660;
       </a>
       <div className="sublinks">
         {dropButton.items.map(button => (
-          <Button key={button.id} {...button} {...childHandlers} />
+          <Button key={button.id} {...button} />
         ))}
       </div>
     </span>
   )
 }
 
-const Button = ({id, href, label, onFocus, onBlur, onClick}) => (
+const Button = ({id, href, label}) => (
     <a id={id}
        href={href}
        tabIndex={0}
        className="button"
-       onFocus={onFocus}
-       onBlur={onBlur}
-       onClick={(button) => { onBlur(button); onClick(button); }}>{label}</a>
+       onFocus={focusButtonAction}
+       onBlur={blurAction}
+       onClick={(button) => { blurAction(button); clickButtonAction(button); }}>{label}</a>
 )
 
-module.exports = Nav
+/***********/
+/* actions */
+/***********/
+
+const toggleMenuAction = () => {
+  store.dispatch({
+    action: 'TOGGLE_MENU'
+  })
+}
+
+const toggleSearchAction = () => {
+  store.dispatch({
+    action: 'TOGGLE_SEARCH'
+  })
+}
+
+const focusButtonAction = (button) => {
+  clearTimeout(blurTimeout)
+  store.dispatch({
+    action: 'FOCUS_BUTTON',
+    button: button
+  })
+}
+
+const focusDropdownAction = (dropdown) => {
+  clearTimeout(blurTimeout)
+  store.dispatch({
+    action: 'FOCUS_DROPDOWN',
+    dropdown: dropdown
+  })
+}
+
+let blurTimeout = 0
+const blurAction = () => {
+  blurTimeout = setTimeout(() => {
+    store.dispatch({
+      action: 'HANDLE_BLUR'
+    })
+  }, 0)
+}
+
+const clickButtonAction = (button) => {
+  store.dispatch({
+    action: 'CLICK_BUTTON',
+    button: button
+  })
+}
+
+const collapseDropdownIfExpanded = (dropdown) => {
+  clearTimeout(blurTimeout)
+  store.dispatch({
+    action: 'COLLAPSE_DROPDOWN_IF_EXPANDED',
+    dropdown: dropdown
+  })
+}
+
+let searchTimeout = 0
+const searchChange = (event) => {
+  clearTimeout(searchTimeout)
+  event.persist()
+  searchTimeout = setTimeout(() => {
+    store.dispatch({
+      action: 'SEARCH_CHANGE',
+      value: event.target.value
+    })
+  }, 300)
+}
+
+/******************/
+/* end of actions */
+/******************/
