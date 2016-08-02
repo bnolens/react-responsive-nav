@@ -166,14 +166,12 @@ const DropButtonList = ({ dropButtons, menuExpanded }) => (
 )
 
 const DropButton = ({ dropButton }) => {
-  const dropProps = ['id', 'label', 'href'].reduce((memo, k) => {
-    memo[k] = dropButton[k]
-    return memo;
-  }, {})
+  let id, label, href
+  const dropButtonProps = ({id, label, href} = dropButton, {id, label, href})
   const className = dropButton.expanded ? 'dropdownContainer expanded' : 'dropdownContainer'
   return (
     <span className={className}>
-      <a className="button dropdown" tabIndex={0} {...dropProps}
+      <a className="button dropdown" tabIndex={0} {...dropButtonProps}
           onMouseDown={collapseDropdownIfExpanded}
           onFocus={focusDropdownAction}
           onBlur={blurAction}>
