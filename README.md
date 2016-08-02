@@ -45,6 +45,6 @@ See the examples directory or [github pages](http://dannybtran.github.io/react-r
 
 ## Build
 - To test, run `npm test` for a single test or `npm test -- --watch=all` for continuous testing.
-- From the root directory run `webpack --watch` and everything in `src` will be continuously compiled into the `bin` directory.
+- From the root directory run `npm run build -- --watch` and everything in `src` will be continuously compiled into the `bin` directory.
 - Serve `index.html` from the examples directory. (e.g. with `python -m SimpleHTTPServer`)
 - The `bin` directory is sym-linked to the `example/assets` directory.
